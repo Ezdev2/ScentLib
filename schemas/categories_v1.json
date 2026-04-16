@@ -1,0 +1,65 @@
+{
+  "$comment": "ScentLib — Ontologie olfactive de référence. Version indépendante du schéma JSON. Peut évoluer sans modifier scent_schema.json. Validation assurée par le SDK à runtime.",
+  "version": "1.0",
+  "last_updated": "2025-06-15",
+
+  "layer1": {
+    "$comment": "8 à 10 familles globales. Toute valeur de layer1_category dans un fichier .scent doit figurer ici.",
+    "values": [
+      "Floral",
+      "Fruity",
+      "Citrus",
+      "Woody",
+      "Earthy",
+      "Chemical",
+      "Food",
+      "Animal",
+      "Minty",
+      "Unclassified"
+    ]
+  },
+
+  "layer2": {
+    "$comment": "Sous-catégories intermédiaires, organisées par famille parente. Optionnel dans le fichier .scent.",
+    "Floral": ["Rose", "Jasmine", "Lavender", "Orange blossom", "Violet", "Geranium"],
+    "Fruity": ["Berry", "Tropical", "Stone fruit", "Melon", "Apple-pear"],
+    "Citrus": ["Lemon", "Orange", "Grapefruit", "Bergamot", "Lime"],
+    "Woody": ["Cedarwood", "Sandalwood", "Balsamic", "Resinous", "Smoky"],
+    "Earthy": ["Mossy", "Mushroom", "Soil", "Petrichor", "Vegetal"],
+    "Chemical": ["Sulfurous", "Ammonia", "Solvent", "Chlorine", "Metallic"],
+    "Food": ["Lactonic", "Caramellic", "Spicy", "Nutty", "Bread-yeast", "Savory"],
+    "Animal": ["Musky", "Leather", "Fecal", "Fishy", "Honey"],
+    "Minty": ["Peppermint", "Spearmint", "Camphor", "Eucalyptus", "Cooling"],
+    "Unclassified": ["Unknown", "Mixed", "Custom"]
+  },
+
+  "layer3": {
+    "$comment": "Descripteurs précis issus de la nomenclature Dravnieks (146 descripteurs de référence). Échantillon représentatif — liste extensible via PR sur categories_v1.json.",
+    "Rose": ["Damascenone", "Rose oxide", "Geraniol"],
+    "Jasmine": ["Indole", "Methyl jasmonate", "Benzyl acetate"],
+    "Lavender": ["Linalool", "Linalyl acetate", "Camphor"],
+    "Bergamot": ["Bergapten", "Bergamot FCF"],
+    "Lemon": ["Limonene", "Citral", "Lemon peel"],
+    "Cedarwood": ["Cedrol", "Cedrene", "Atlas cedar"],
+    "Sandalwood": ["Santalol", "Mysore sandalwood"],
+    "Smoky": ["Guaiacol", "Syringol", "Smoke"],
+    "Sulfurous": ["Hydrogen sulfide", "Dimethyl sulfide", "Rotten egg"],
+    "Musky": ["Muscone", "Habanolide", "Clean musk"],
+    "Leather": ["Birch tar", "Iso E Super", "Castoreum"],
+    "Caramellic": ["Furaneol", "Maltol", "Diacetyl"],
+    "Spicy": ["Eugenol", "Cinnamaldehyde", "Black pepper"],
+    "Mushroom": ["1-Octen-3-ol", "Earthy mushroom"],
+    "Petrichor": ["Geosmin", "Rain on earth"],
+    "Vanilla": ["Vanillin", "Ethyl vanillin", "Coumarin"],
+    "Fresh cut grass": ["cis-3-Hexenol", "Green leaf"],
+    "Cooling": ["Menthol", "WS-3", "WS-23"]
+  },
+
+  "extension_policy": {
+    "$comment": "Règles pour ajouter de nouvelles valeurs à cette ontologie.",
+    "layer1_addition": "Soumettre une PR avec justification scientifique. Nécessite consensus des mainteneurs. Incrémenter 'version'.",
+    "layer2_addition": "Soumettre une PR rattachant la sous-catégorie à un layer1 existant.",
+    "layer3_addition": "Libre, sous réserve de rattachement à un layer2 existant et d'une référence CAS ou IUPAC si disponible.",
+    "custom_tags": "Aucune validation requise — utiliser le champ 'custom_tags' du fichier .scent pour des étiquettes non standardisées."
+  }
+}
