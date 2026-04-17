@@ -1,277 +1,136 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/scentlib/scentlib/schemas/scent_schema_v1.0.json",
-  "title": "ScentLib Scent File Schema",
-  "description": "Schema officiel pour les fichiers .scent — Format ouvert de numérisation olfactive. Version 1.0.",
+  "$id": "https://raw.githubusercontent.com/Ezdev2/ScentLib/main/schemas/scent_schema.json",
+  "title": "ScentLib Standard Specification",
+  "description": "A universal exchange format for digital olfaction data. Compatible with Pyrfume perceptual data, raw sensor signals, and computed ML features.",
   "type": "object",
-
-  "required": [
-    "schema_version",
-    "type",
-    "metadata",
-    "sensor",
-    "capture"
-  ],
-
+  "required": ["schema_version", "header", "labels", "data"],
+  "additionalProperties": false,
   "properties": {
-
     "schema_version": {
       "type": "string",
-      "description": "Version du schéma .scent utilisé. Autorité centrale pour la rétrocompatibilité.",
-      "const": "1.0",
-      "examples": ["1.0"]
+      "description": "Specification version following Semantic Versioning (SemVer).",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     },
-
-    "type": {
-      "type": "string",
-      "description": "Nature du fichier : capture unique ou série temporelle.",
-      "enum": ["snapshot", "timeseries"]
-    },
-
-    "metadata": {
+    "header": {
       "type": "object",
-      "description": "Informations contextuelles de la capture. Aucune donnée personnelle autorisée.",
-      "required": ["created_at", "data_origin", "environment"],
-      "additionalProperties": false,
-
+      "required": ["capture_type", "data_origin", "timestamp"],
       "properties": {
-
-        "created_at": {
+        "capture_type": {
           "type": "string",
-          "format": "date-time",
-          "description": "Horodatage ISO 8601 de la création du fichier.",
-          "examples": ["2025-06-15T14:32:00Z"]
+          "enum": ["static", "stream"],
+          "description": "Single snapshot (static) or time-series (stream)."
         },
-
         "data_origin": {
           "type": "string",
-          "description": "Origine des données : capteur physique ou données perceptuelles humaines (ex: Pyrfume).",
-          "enum": ["physical_sensor", "human_perceptual", "simulated"]
+          "enum": [
+            "human_perceptual",
+            "sensor_raw",
+            "simulated",
+            "ai_generated",
+            "computed_features"
+          ],
+          "description": "Source of the data vector. 'human_perceptual' = Pyrfume-style perceptual ratings. 'sensor_raw' = e-nose hardware output. 'computed_features' = Mordred/Morgan or other cheminformatics vectors. 'simulated' = synthetic test data. 'ai_generated' = model prediction output."
         },
-
+        "dimension_map": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Names of each dimension in the data vector. For human_perceptual data, these are Dravnieks descriptor names (e.g. ['ROSE', 'FLORAL']). For sensor_raw, these are sensor channel names (e.g. ['MOS_1', 'MOS_2']). For computed_features, these are feature names (e.g. ['ABC', 'MW']). Can be omitted if feature_set_ref is provided."
+        },
+        "feature_set_ref": {
+          "type": "string",
+          "description": "Optional URI or identifier for a shared, externally-defined feature set. Use when dimension_map would be impractically large (e.g. Mordred's 1826 features). Example: 'pyrfume:mordred/features.csv@v1' or 'scentlib:dravnieks_146@v1'. When present, dimension_map MAY be omitted."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of data capture or generation."
+        },
         "environment": {
           "type": "object",
-          "description": "Conditions environnementales obligatoires — une odeur varie physiquement selon ces paramètres.",
-          "required": ["temperature_celsius", "humidity_percent"],
-          "additionalProperties": false,
+          "description": "Physical environment at time of capture. Mandatory for sensor_raw, optional for others.",
           "properties": {
-            "temperature_celsius": {
-              "type": "number",
-              "description": "Température ambiante en degrés Celsius au moment de la capture.",
-              "minimum": -40,
-              "maximum": 85,
-              "examples": [22.5]
-            },
-            "humidity_percent": {
-              "type": "number",
-              "description": "Humidité relative en pourcentage au moment de la capture.",
-              "minimum": 0,
-              "maximum": 100,
-              "examples": [55.0]
-            },
-            "pressure_hpa": {
-              "type": "number",
-              "description": "Pression atmosphérique en hPa (optionnel).",
-              "minimum": 800,
-              "maximum": 1100
-            }
+            "temperature_c": { "type": "number" },
+            "humidity_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "pressure_hpa": { "type": "number" }
           }
         },
-
-        "location_tag": {
+        "source_dataset": {
           "type": "string",
-          "description": "Étiquette de lieu générique (jamais de données GPS ou personnelles).",
-          "maxLength": 64,
-          "examples": ["lab_a", "outdoor_market", "kitchen"]
-        },
-
-        "ai_model": {
-          "type": "object",
-          "description": "Présent uniquement si le fichier a été généré ou annoté par une IA.",
-          "required": ["name", "version"],
-          "additionalProperties": false,
-          "properties": {
-            "name": {
-              "type": "string",
-              "examples": ["RandomForest", "ScentNet"]
-            },
-            "version": {
-              "type": "string",
-              "examples": ["1.0.2"]
-            }
-          }
-        },
-
-        "notes": {
-          "type": "string",
-          "description": "Commentaire libre sur la capture (optionnel). Aucune donnée personnelle.",
-          "maxLength": 512
+          "description": "Optional reference to the originating dataset. Example: 'pyrfume:dravnieks_1985', 'pyrfume:keller_2016', 'custom:lab_experiment_A'."
         }
       }
     },
-
-    "sensor": {
+    "chemical_info": {
       "type": "object",
-      "description": "Description abstraite du générateur de signal. Agnostique au matériel.",
-      "required": ["id", "channels"],
-      "additionalProperties": false,
-
+      "description": "Chemical identifiers linking this record to global databases (PubChem, ChEMBL, etc.).",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Identifiant arbitraire du capteur ou de la source de données.",
-          "examples": ["bme688_unit_01", "pyrfume_dataset_v2", "simulated_enose"]
-        },
-        "model": {
-          "type": "string",
-          "description": "Modèle commercial ou nom du dataset source (optionnel).",
-          "examples": ["Bosch BME688", "Pyrfume-Goodscents", "custom"]
-        },
-        "channels": {
+        "pubchem_cid": {
           "type": "integer",
-          "description": "Nombre de canaux / dimensions du vecteur de signal.",
-          "minimum": 1,
-          "maximum": 4096,
-          "examples": [4, 128, 146]
+          "description": "PubChem Compound ID — primary universal identifier. Used as join key with Pyrfume."
         },
-        "firmware_version": {
+        "smiles": {
           "type": "string",
-          "description": "Version du firmware du capteur physique (optionnel).",
-          "examples": ["3.1.0"]
+          "description": "Canonical IsomericSMILES (PubChem standard). Used for RDKit/Mordred featurization."
+        },
+        "inchi_key": {
+          "type": "string",
+          "description": "Standard InChIKey — 27-character hash, useful for cross-database deduplication."
+        },
+        "iupac_name": {
+          "type": "string",
+          "description": "IUPAC systematic name as returned by PubChem."
+        },
+        "molecular_weight": {
+          "type": "number",
+          "description": "Molecular weight in g/mol."
+        },
+        "common_name": {
+          "type": "string",
+          "description": "Most common or trade name (e.g. 'd-limonene', 'benzaldehyde')."
         }
       }
     },
-
-    "capture": {
-      "description": "Données de capture. Structure adaptée selon le champ 'type' (snapshot ou timeseries).",
-      "oneOf": [
-        {
-          "title": "Snapshot",
-          "description": "Capture unique : un seul vecteur normalisé.",
-          "type": "object",
-          "required": ["signal"],
-          "additionalProperties": false,
-          "properties": {
-            "signal": {
-              "$ref": "#/$defs/signal_vector"
-            },
-            "labels": {
-              "$ref": "#/$defs/labels"
-            }
-          }
-        },
-        {
-          "title": "Timeseries",
-          "description": "Série temporelle : liste ordonnée de points de capture.",
-          "type": "object",
-          "required": ["sampling_rate_hz", "frames"],
-          "additionalProperties": false,
-          "properties": {
-            "sampling_rate_hz": {
-              "type": "number",
-              "description": "Fréquence d'échantillonnage en Hz.",
-              "minimum": 0.001,
-              "examples": [1.0, 10.0]
-            },
-            "frames": {
-              "type": "array",
-              "description": "Liste ordonnée de frames temporelles.",
-              "minItems": 2,
-              "items": {
-                "type": "object",
-                "required": ["t_ms", "signal"],
-                "additionalProperties": false,
-                "properties": {
-                  "t_ms": {
-                    "type": "integer",
-                    "description": "Temps écoulé depuis le début de la série, en millisecondes.",
-                    "minimum": 0
-                  },
-                  "signal": {
-                    "$ref": "#/$defs/signal_vector"
-                  },
-                  "labels": {
-                    "$ref": "#/$defs/labels"
-                  }
-                }
-              }
-            }
-          }
-        }
-      ]
-    }
-  },
-
-  "$defs": {
-
-    "signal_vector": {
-      "type": "array",
-      "description": "Vecteur normalisé de signal olfactif. Chaque valeur représente un canal capteur, normalisée entre 0.0 et 1.0.",
-      "minItems": 1,
-      "items": {
-        "type": "number",
-        "minimum": 0.0,
-        "maximum": 1.0
-      },
-      "examples": [[0.12, 0.87, 0.34, 0.56]]
-    },
-
     "labels": {
       "type": "object",
-      "description": "Ontologie olfactive en couches. Layer 1 obligatoire, Layers 2 et 3 optionnels. La valeur de layer1_category doit correspondre à une entrée valide dans categories_v1.json — validation assurée par le SDK à runtime.",
       "required": ["layer1_category"],
-      "additionalProperties": false,
       "properties": {
-
         "layer1_category": {
           "type": "string",
-          "description": "Famille olfactive globale (obligatoire). La liste des valeurs autorisées est définie dans schemas/categories_v1.json et validée par le SDK. Ce champ accepte toute string valide — la contrainte sémantique est externalisée pour permettre l'évolution sans changer le schéma.",
-          "minLength": 2,
-          "maxLength": 64,
-          "examples": ["Floral", "Woody", "Chemical", "Unclassified"]
+          "description": "Global olfactory family. Must match an 'id' from categories_v1.json (e.g. 'floral', 'fruity', 'citrus'). Use lowercase IDs only."
         },
-
-        "layer2_subcategory": {
+        "layer2_sub_category": {
           "type": "string",
-          "description": "Précision intermédiaire (optionnel). Ex: Agrume, Soufré, Lacté. Liste de référence dans categories_v1.json.",
-          "minLength": 2,
-          "maxLength": 64,
-          "examples": ["Citrus", "Sulfurous", "Lactonic", "Balsamic"]
+          "description": "Optional sub-category within layer1 (e.g. 'rose', 'lemon', 'cedar'). Should match 'layer2' values in descriptor_map_v1.json."
         },
-
         "layer3_descriptor": {
           "type": "string",
-          "description": "Descripteur précis de Dravnieks (optionnel). Ex: Bergamote, Oeuf pourri. Liste de référence dans categories_v1.json.",
-          "minLength": 2,
-          "maxLength": 128,
-          "examples": ["Bergamot", "Rotten egg", "Vanilla", "Fresh cut grass"]
+          "description": "The precise Dravnieks descriptor or sensor-specific label (e.g. 'ROSE', 'Molecule_42', 'Hexanal'). Free-form string."
         },
-
-        "custom_tags": {
-          "type": "array",
-          "description": "Étiquettes personnalisées libres (optionnel). Doivent coexister avec la hiérarchie standard.",
-          "items": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
-          },
-          "maxItems": 10
-        },
-
         "intensity": {
           "type": "number",
-          "description": "Intensité perçue ou estimée, normalisée entre 0.0 (imperceptible) et 1.0 (très fort).",
-          "minimum": 0.0,
-          "maximum": 1.0
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Normalized overall odor intensity (0 = imperceptible, 1 = maximal). Distinct from the data vector values."
         },
-
         "confidence": {
           "type": "number",
-          "description": "Niveau de confiance du label entre 0.0 et 1.0. Utile pour les labels générés par IA.",
-          "minimum": 0.0,
-          "maximum": 1.0
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Optional confidence score for the category assignment (0 = uncertain, 1 = certain). Useful for AI-generated labels."
         }
       }
+    },
+    "data": {
+      "type": "array",
+      "description": "Normalized data vector (all values 0.0 to 1.0). Length must match dimension_map (if provided). For human_perceptual: Dravnieks scores normalized from [0-5] to [0-1]. For sensor_raw: normalized sensor readings. For computed_features: normalized Mordred/Morgan values.",
+      "items": { "type": "number", "minimum": 0, "maximum": 1 },
+      "minItems": 1
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Arbitrary additional information. Conventions: 'source' (dataset name), 'model_name'+'model_version' for ai_generated, 'n_panelists' for human_perceptual.",
+      "additionalProperties": true
     }
   }
 }

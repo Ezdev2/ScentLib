@@ -1,65 +1,132 @@
 {
-  "$comment": "ScentLib — Ontologie olfactive de référence. Version indépendante du schéma JSON. Peut évoluer sans modifier scent_schema.json. Validation assurée par le SDK à runtime.",
-  "version": "1.0",
-  "last_updated": "2025-06-15",
-
-  "layer1": {
-    "$comment": "8 à 10 familles globales. Toute valeur de layer1_category dans un fichier .scent doit figurer ici.",
-    "values": [
-      "Floral",
-      "Fruity",
-      "Citrus",
-      "Woody",
-      "Earthy",
-      "Chemical",
-      "Food",
-      "Animal",
-      "Minty",
-      "Unclassified"
-    ]
-  },
-
-  "layer2": {
-    "$comment": "Sous-catégories intermédiaires, organisées par famille parente. Optionnel dans le fichier .scent.",
-    "Floral": ["Rose", "Jasmine", "Lavender", "Orange blossom", "Violet", "Geranium"],
-    "Fruity": ["Berry", "Tropical", "Stone fruit", "Melon", "Apple-pear"],
-    "Citrus": ["Lemon", "Orange", "Grapefruit", "Bergamot", "Lime"],
-    "Woody": ["Cedarwood", "Sandalwood", "Balsamic", "Resinous", "Smoky"],
-    "Earthy": ["Mossy", "Mushroom", "Soil", "Petrichor", "Vegetal"],
-    "Chemical": ["Sulfurous", "Ammonia", "Solvent", "Chlorine", "Metallic"],
-    "Food": ["Lactonic", "Caramellic", "Spicy", "Nutty", "Bread-yeast", "Savory"],
-    "Animal": ["Musky", "Leather", "Fecal", "Fishy", "Honey"],
-    "Minty": ["Peppermint", "Spearmint", "Camphor", "Eucalyptus", "Cooling"],
-    "Unclassified": ["Unknown", "Mixed", "Custom"]
-  },
-
-  "layer3": {
-    "$comment": "Descripteurs précis issus de la nomenclature Dravnieks (146 descripteurs de référence). Échantillon représentatif — liste extensible via PR sur categories_v1.json.",
-    "Rose": ["Damascenone", "Rose oxide", "Geraniol"],
-    "Jasmine": ["Indole", "Methyl jasmonate", "Benzyl acetate"],
-    "Lavender": ["Linalool", "Linalyl acetate", "Camphor"],
-    "Bergamot": ["Bergapten", "Bergamot FCF"],
-    "Lemon": ["Limonene", "Citral", "Lemon peel"],
-    "Cedarwood": ["Cedrol", "Cedrene", "Atlas cedar"],
-    "Sandalwood": ["Santalol", "Mysore sandalwood"],
-    "Smoky": ["Guaiacol", "Syringol", "Smoke"],
-    "Sulfurous": ["Hydrogen sulfide", "Dimethyl sulfide", "Rotten egg"],
-    "Musky": ["Muscone", "Habanolide", "Clean musk"],
-    "Leather": ["Birch tar", "Iso E Super", "Castoreum"],
-    "Caramellic": ["Furaneol", "Maltol", "Diacetyl"],
-    "Spicy": ["Eugenol", "Cinnamaldehyde", "Black pepper"],
-    "Mushroom": ["1-Octen-3-ol", "Earthy mushroom"],
-    "Petrichor": ["Geosmin", "Rain on earth"],
-    "Vanilla": ["Vanillin", "Ethyl vanillin", "Coumarin"],
-    "Fresh cut grass": ["cis-3-Hexenol", "Green leaf"],
-    "Cooling": ["Menthol", "WS-3", "WS-23"]
-  },
-
-  "extension_policy": {
-    "$comment": "Règles pour ajouter de nouvelles valeurs à cette ontologie.",
-    "layer1_addition": "Soumettre une PR avec justification scientifique. Nécessite consensus des mainteneurs. Incrémenter 'version'.",
-    "layer2_addition": "Soumettre une PR rattachant la sous-catégorie à un layer1 existant.",
-    "layer3_addition": "Libre, sous réserve de rattachement à un layer2 existant et d'une référence CAS ou IUPAC si disponible.",
-    "custom_tags": "Aucune validation requise — utiliser le champ 'custom_tags' du fichier .scent pour des étiquettes non standardisées."
-  }
+  "schema_version": "1.1.0",
+  "ontology_name": "ScentLib Global Taxonomy",
+  "ontology_type": "hybrid",
+  "description": "ScentLib's Layer 1 taxonomy is a synthesis of three established olfactory ontologies: the Dravnieks 1985 NMF-derived 10 categories (primary source), the IAWPRC 1986 environmental odor wheel (8 categories), and the IFRA fragrance industry taxonomy. Where these overlap, we follow the Dravnieks NMF clustering. Where they diverge or have gaps (notably for sensor artifacts and industrial odors), ScentLib defines its own categories, marked with source='scentlib'. This file is the authority for layer1_category validation in scent_schema.json.",
+  "primary_sources": [
+    {
+      "ref": "Dravnieks_NMF_2016",
+      "full": "Carrasco et al. (2016). Multivariate Analysis and Classification of 146 Odor Character Descriptors. Chemosensory Perception. DOI: 10.1007/s12078-021-09288-1",
+      "note": "PCA/NMF on the Dravnieks 1985 Atlas (160 samples × 146 descriptors) yielded 10 base perceptual clusters."
+    },
+    {
+      "ref": "IAWPRC_1986",
+      "full": "IAWPRC (1986). Environmental odor wheel: 8 major categories for natural water odors.",
+      "note": "Reference for environmental/industrial odor families."
+    },
+    {
+      "ref": "IFRA",
+      "full": "International Fragrance Association taxonomy.",
+      "note": "Reference for fragrance-industry sub-categories (Animalic, Musk, Leather)."
+    }
+  ],
+  "last_updated": "2026-04-17",
+  "categories": [
+    {
+      "id": "floral",
+      "name": "Floral",
+      "description": "Flower-derived scents: rose, jasmine, violet, lavender, lily, geranium, cologne, perfumery.",
+      "source": "Dravnieks_NMF_2016",
+      "example_dravnieks_descriptors": ["ROSE", "FLORAL", "JASMINE", "VIOLET", "GERANIUM", "LILY", "INCENSE", "PERFUMERY", "COLOGNE", "LAVENDER"],
+      "color_hint": "#f48fb1"
+    },
+    {
+      "id": "fruity",
+      "name": "Fruity",
+      "description": "Non-citrus sweet fruits: apple, peach, banana, berry, pear, apricot, grape.",
+      "source": "Dravnieks_NMF_2016",
+      "note": "Separated from 'citrus' per Dravnieks NMF clustering — fruity and citrus occupy distinct perceptual clusters.",
+      "example_dravnieks_descriptors": ["FRUITY", "APPLE", "PEACH", "BANANA", "GRAPE", "PINEAPPLE", "BERRY", "APRICOT"],
+      "color_hint": "#ffb74d"
+    },
+    {
+      "id": "citrus",
+      "name": "Citrus",
+      "description": "Acidic citrus fruits: lemon, orange, grapefruit, lime, bergamot.",
+      "source": "Dravnieks_NMF_2016",
+      "note": "Distinct cluster from 'fruity' in Dravnieks NMF. Acidic/tart character separates them perceptually.",
+      "example_dravnieks_descriptors": ["LEMON", "ORANGE", "GRAPEFRUIT", "LIME"],
+      "color_hint": "#ffee58"
+    },
+    {
+      "id": "woody_earthy",
+      "name": "Woody & Earthy",
+      "description": "Wood, roots, damp soil, moss, resin: sandalwood, cedar, geosmin, musty, moldy.",
+      "source": "Dravnieks_NMF_2016",
+      "example_dravnieks_descriptors": ["WOODY", "CEDAR", "SANDALWOOD", "EARTHY", "MUSTY", "MOLDY", "MOIST SOIL", "MOSS", "RESINOUS"],
+      "color_hint": "#8d6e63"
+    },
+    {
+      "id": "spicy_warm",
+      "name": "Spicy & Warm",
+      "description": "Warm culinary spices and resins: cinnamon, clove, pepper, vanilla, sweet, burnt/smoky.",
+      "source": "Dravnieks_NMF_2016",
+      "note": "Includes the 'sweet' and 'burnt/smoky' Dravnieks NMF clusters which are perceptually adjacent to warm spices.",
+      "example_dravnieks_descriptors": ["SPICY", "CINNAMON", "CLOVE", "PEPPER", "VANILLA", "SWEET", "SMOKY", "BURNT", "CARAMELLIC", "NUTTY"],
+      "color_hint": "#e64a19"
+    },
+    {
+      "id": "minty_fresh",
+      "name": "Minty & Fresh",
+      "description": "Cool, refreshing, camphoraceous, green: mint, eucalyptus, cool, fresh, herbal, grass.",
+      "source": "Dravnieks_NMF_2016",
+      "note": "Renamed from 'green_herbal' to match the Dravnieks NMF cluster label 'Minty/Refreshing'. Green and herbal are sub-descriptors of this cluster, not a separate top-level family.",
+      "example_dravnieks_descriptors": ["MINTY", "COOL", "FRESH", "EUCALYPTUS", "CAMPHOR", "HERBAL", "GREEN", "GRASSY", "COOLING"],
+      "color_hint": "#66bb6a"
+    },
+    {
+      "id": "animalic",
+      "name": "Animalic",
+      "description": "Animal-derived notes, musk, leather, sweat: civet, castoreum, ambergris, leather.",
+      "source": "IFRA",
+      "note": "Not a top-level Dravnieks NMF cluster. Sourced from IFRA fragrance taxonomy. Present in Dravnieks as sub-descriptors within putrid or spicy clusters.",
+      "example_dravnieks_descriptors": ["MUSK", "LEATHER", "ANIMAL", "SWEAT", "RANCID"],
+      "color_hint": "#795548"
+    },
+    {
+      "id": "chemical_industrial",
+      "name": "Chemical & Industrial",
+      "description": "Solvents, petroleum, plastic, rubber, ozone, paint, gasoline: ethanol, chlorine, benzene.",
+      "source": "Dravnieks_NMF_2016",
+      "note": "Maps to the 'Chemical smell' NMF cluster. Also aligns with IAWPRC 'Chemical' category.",
+      "example_dravnieks_descriptors": ["CHEMICAL", "SOLVENT", "GASOLINE", "PAINT", "PLASTIC", "RUBBER", "OZONE", "CHLORINE"],
+      "color_hint": "#90a4ae"
+    },
+    {
+      "id": "savory_food",
+      "name": "Savory & Food",
+      "description": "Non-sweet culinary smells: grilled meat, cheese, bread, garlic, onion, popcorn, coffee.",
+      "source": "scentlib",
+      "note": "Not a top-level Dravnieks NMF cluster. ScentLib addition to cover food-adjacent odors captured by sensors in kitchen/food environments. Descriptors draw from Dravnieks 'bakery', 'meaty', 'garlic' sub-clusters.",
+      "example_dravnieks_descriptors": ["BAKERY", "MEAT COOKED", "GARLIC", "ONION", "COFFEE", "POPCORN", "CHEESE"],
+      "color_hint": "#fdd835"
+    },
+    {
+      "id": "putrid_decay",
+      "name": "Putrid & Decay",
+      "description": "Decaying organic matter, sulfurous, fecal, ammoniacal: rotten egg, sulfur, fishy, ammonia.",
+      "source": "Dravnieks_NMF_2016",
+      "note": "Maps to two distinct Dravnieks NMF clusters: 'Decomposed' and 'Rancid'. Merged into one ScentLib category for simplicity at layer1; split at layer2 if needed.",
+      "example_dravnieks_descriptors": ["PUTRID", "ROTTEN", "SULFUROUS", "FECAL", "FISHY", "AMMONIA", "SEWER", "RANCID", "EGGY"],
+      "color_hint": "#558b2f"
+    },
+    {
+      "id": "medicinal",
+      "name": "Medicinal",
+      "description": "Pharmaceutical, antiseptic, disinfectant: alcohol, camphor, phenolic, iodine.",
+      "source": "IAWPRC_1986",
+      "note": "Sourced from IAWPRC 'Medicinal' category. Not a distinct NMF cluster in Dravnieks (descriptors scatter between chemical and minty). Kept as ScentLib top-level for practical relevance in healthcare/lab sensor contexts.",
+      "example_dravnieks_descriptors": ["MEDICINAL", "ANTISEPTIC", "PHENOLIC", "IODINE"],
+      "color_hint": "#4fc3f7"
+    },
+    {
+      "id": "unclassified",
+      "name": "Unclassified",
+      "description": "Unknown scent, sensor artifact, complex mixture not mappable to any single category, or novel synthetic compound.",
+      "source": "scentlib",
+      "note": "ScentLib-specific category. Required for sensor data where chemical identity is unknown, or for mixtures too complex to classify.",
+      "example_dravnieks_descriptors": [],
+      "color_hint": "#bdbdbd"
+    }
+  ]
 }

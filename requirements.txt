@@ -1,0 +1,13 @@
+# --- Noyau & Validation ---
+pydantic>=2.0.0
+jsonschema>=4.17.0
+# --- Analyse & Data
+polars>=0.19.0
+numpy>=1.24.0
+# --- API & Driver
+fastapi>=0.100.0
+uvicorn>=0.22.0
+# --- Utilitaires & Tests ---
+requests>=2.31.0
+pytest>=7.4.0
+pathlib

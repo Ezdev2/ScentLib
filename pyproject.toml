@@ -1,1 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
+[project]
+name = "scentlib"
+version = "0.1.0"
+authors = [
+  { name="Ezra Fanomezantsoa" },
+]
+description = "An open standard and SDK for digital olfaction data."
+readme = "README.md"
+requires-python = ">=3.9"
+# On utilise la nouvelle norme pour la licence
+license = { text = "Apache-2.0" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+    "jsonschema>=4.17.0",
+    "polars>=0.19.0",
+    "pydantic>=2.0.0",
+    "requests>=2.31.0",
+]
+
+[tool.setuptools]
+# C'est ici qu'on règle ton erreur : on n'inclut que le dossier scentlib
+packages = ["scentlib"]
+
+[project.urls]
+"Homepage" = "https://github.com/Ezdev2/ScentLib"
+
+[project.scripts]
+scentlib = "scentlib.core.cli:main"

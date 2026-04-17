@@ -1,0 +1,387 @@
+{
+  "schema_version": "1.0.0",
+  "map_name": "ScentLib Dravnieks Descriptor Map",
+  "description": "Maps all 146 Dravnieks (1985) odor descriptors to ScentLib layer1_category IDs. Used by pyrfume_to_scent.py to infer category from the dominant perceptual score. Mapping is based on PCA/NMF clustering from Carrasco et al. (2016) and manual expert review. Where a descriptor sits at the boundary of two clusters, the primary assignment is chosen and a 'secondary' field is provided.",
+  "source": "Dravnieks, A. (1985). Atlas of Odor Character Profiles. ASTM DS-61.",
+  "cluster_reference": "Carrasco et al. (2016). Chemosensory Perception. DOI: 10.1007/s12078-021-09288-1",
+  "last_updated": "2026-04-17",
+  "scale": "0 to 5 (0 = not applicable, 5 = highly appropriate)",
+  "descriptors": [
+    { "id": "FRAGRANT", "layer1": "floral", "layer2": "floral_general" },
+    { "id": "FLORAL", "layer1": "floral", "layer2": "floral_general" },
+    { "id": "ROSE", "layer1": "floral", "layer2": "rose" },
+    { "id": "VIOLET", "layer1": "floral", "layer2": "violet" },
+    { "id": "JASMINE", "layer1": "floral", "layer2": "jasmine" },
+    { "id": "LILY", "layer1": "floral", "layer2": "lily" },
+    { "id": "GERANIUM", "layer1": "floral", "layer2": "geranium" },
+    { "id": "LAVENDER", "layer1": "floral", "layer2": "lavender" },
+    {
+      "id": "INCENSE",
+      "layer1": "floral",
+      "layer2": "incense",
+      "secondary": "spicy_warm"
+    },
+    { "id": "PERFUMERY", "layer1": "floral", "layer2": "floral_general" },
+    { "id": "COLOGNE", "layer1": "floral", "layer2": "floral_general" },
+    { "id": "FRUITY", "layer1": "fruity", "layer2": "fruity_general" },
+    { "id": "APPLE", "layer1": "fruity", "layer2": "apple" },
+    { "id": "PEACH", "layer1": "fruity", "layer2": "peach" },
+    { "id": "BANANA", "layer1": "fruity", "layer2": "banana" },
+    { "id": "GRAPE", "layer1": "fruity", "layer2": "grape" },
+    { "id": "PINEAPPLE", "layer1": "fruity", "layer2": "pineapple" },
+    { "id": "CHERRY", "layer1": "fruity", "layer2": "cherry" },
+    { "id": "APRICOT", "layer1": "fruity", "layer2": "apricot" },
+    { "id": "PLUM", "layer1": "fruity", "layer2": "plum" },
+    { "id": "BERRY", "layer1": "fruity", "layer2": "berry" },
+    { "id": "BLACKBERRY", "layer1": "fruity", "layer2": "berry" },
+    { "id": "LEMON", "layer1": "citrus", "layer2": "lemon" },
+    { "id": "ORANGE", "layer1": "citrus", "layer2": "orange" },
+    { "id": "GRAPEFRUIT", "layer1": "citrus", "layer2": "grapefruit" },
+    { "id": "LIME", "layer1": "citrus", "layer2": "lime" },
+    { "id": "CITRUS", "layer1": "citrus", "layer2": "citrus_general" },
+    { "id": "WOODY", "layer1": "woody_earthy", "layer2": "woody_general" },
+    { "id": "CEDAR", "layer1": "woody_earthy", "layer2": "cedar" },
+    { "id": "SANDALWOOD", "layer1": "woody_earthy", "layer2": "sandalwood" },
+    {
+      "id": "PINE",
+      "layer1": "woody_earthy",
+      "layer2": "pine",
+      "secondary": "minty_fresh"
+    },
+    { "id": "EARTHY", "layer1": "woody_earthy", "layer2": "earthy" },
+    { "id": "MUSTY", "layer1": "woody_earthy", "layer2": "musty" },
+    { "id": "MOLDY", "layer1": "woody_earthy", "layer2": "moldy" },
+    { "id": "MOIST SOIL", "layer1": "woody_earthy", "layer2": "earthy" },
+    { "id": "MOSS", "layer1": "woody_earthy", "layer2": "mossy" },
+    {
+      "id": "RESINOUS",
+      "layer1": "woody_earthy",
+      "layer2": "resinous",
+      "secondary": "spicy_warm"
+    },
+    {
+      "id": "TURPENTINE",
+      "layer1": "woody_earthy",
+      "layer2": "turpentine",
+      "secondary": "chemical_industrial"
+    },
+    { "id": "DRY", "layer1": "woody_earthy", "layer2": "woody_general" },
+    { "id": "PAPER", "layer1": "woody_earthy", "layer2": "woody_general" },
+    { "id": "SWEET", "layer1": "spicy_warm", "layer2": "sweet_general" },
+    { "id": "VANILLA", "layer1": "spicy_warm", "layer2": "vanilla" },
+    { "id": "CARAMELLIC", "layer1": "spicy_warm", "layer2": "caramel" },
+    { "id": "HONEY", "layer1": "spicy_warm", "layer2": "honey" },
+    {
+      "id": "CHOCOLATE",
+      "layer1": "spicy_warm",
+      "layer2": "chocolate",
+      "secondary": "savory_food"
+    },
+    { "id": "SPICY", "layer1": "spicy_warm", "layer2": "spicy_general" },
+    { "id": "CINNAMON", "layer1": "spicy_warm", "layer2": "cinnamon" },
+    { "id": "CLOVE", "layer1": "spicy_warm", "layer2": "clove" },
+    { "id": "PEPPER", "layer1": "spicy_warm", "layer2": "pepper" },
+    { "id": "ANISE", "layer1": "spicy_warm", "layer2": "anise" },
+    {
+      "id": "NUTTY",
+      "layer1": "spicy_warm",
+      "layer2": "nutty",
+      "secondary": "savory_food"
+    },
+    { "id": "ALMOND", "layer1": "spicy_warm", "layer2": "almond" },
+    { "id": "MARZIPAN", "layer1": "spicy_warm", "layer2": "almond" },
+    { "id": "SMOKY", "layer1": "spicy_warm", "layer2": "smoky" },
+    {
+      "id": "BURNT",
+      "layer1": "spicy_warm",
+      "layer2": "burnt",
+      "secondary": "chemical_industrial"
+    },
+    { "id": "TOBACCO", "layer1": "spicy_warm", "layer2": "tobacco" },
+    { "id": "MINTY", "layer1": "minty_fresh", "layer2": "mint" },
+    { "id": "PEPPERMINT", "layer1": "minty_fresh", "layer2": "peppermint" },
+    { "id": "SPEARMINT", "layer1": "minty_fresh", "layer2": "spearmint" },
+    { "id": "EUCALYPTUS", "layer1": "minty_fresh", "layer2": "eucalyptus" },
+    {
+      "id": "CAMPHOR",
+      "layer1": "minty_fresh",
+      "layer2": "camphor",
+      "secondary": "medicinal"
+    },
+    { "id": "COOL", "layer1": "minty_fresh", "layer2": "cooling" },
+    { "id": "COOLING", "layer1": "minty_fresh", "layer2": "cooling" },
+    { "id": "FRESH", "layer1": "minty_fresh", "layer2": "fresh_general" },
+    { "id": "GREEN", "layer1": "minty_fresh", "layer2": "green" },
+    { "id": "GRASSY", "layer1": "minty_fresh", "layer2": "grass" },
+    { "id": "HERBAL", "layer1": "minty_fresh", "layer2": "herbal" },
+    { "id": "TEA", "layer1": "minty_fresh", "layer2": "herbal" },
+    {
+      "id": "VEGETABLE",
+      "layer1": "minty_fresh",
+      "layer2": "vegetable",
+      "secondary": "savory_food"
+    },
+    { "id": "LEAFY", "layer1": "minty_fresh", "layer2": "green" },
+    { "id": "MUSK", "layer1": "animalic", "layer2": "musk" },
+    { "id": "LEATHER", "layer1": "animalic", "layer2": "leather" },
+    { "id": "ANIMAL", "layer1": "animalic", "layer2": "animal_general" },
+    {
+      "id": "SWEAT",
+      "layer1": "animalic",
+      "layer2": "sweat",
+      "secondary": "putrid_decay"
+    },
+    { "id": "MUSKY", "layer1": "animalic", "layer2": "musk" },
+    {
+      "id": "CHEMICAL",
+      "layer1": "chemical_industrial",
+      "layer2": "chemical_general"
+    },
+    { "id": "SOLVENT", "layer1": "chemical_industrial", "layer2": "solvent" },
+    {
+      "id": "GASOLINE",
+      "layer1": "chemical_industrial",
+      "layer2": "petroleum"
+    },
+    { "id": "PAINT", "layer1": "chemical_industrial", "layer2": "paint" },
+    { "id": "PLASTIC", "layer1": "chemical_industrial", "layer2": "plastic" },
+    { "id": "RUBBER", "layer1": "chemical_industrial", "layer2": "rubber" },
+    { "id": "OZONE", "layer1": "chemical_industrial", "layer2": "ozone" },
+    {
+      "id": "CHLORINE",
+      "layer1": "chemical_industrial",
+      "layer2": "chlorine",
+      "secondary": "medicinal"
+    },
+    {
+      "id": "ALDEHYDIC",
+      "layer1": "chemical_industrial",
+      "layer2": "aldehydic",
+      "secondary": "floral"
+    },
+    { "id": "ACETONE", "layer1": "chemical_industrial", "layer2": "solvent" },
+    { "id": "ACRID", "layer1": "chemical_industrial", "layer2": "acrid" },
+    {
+      "id": "PUNGENT",
+      "layer1": "chemical_industrial",
+      "layer2": "pungent",
+      "secondary": "putrid_decay"
+    },
+    { "id": "SHARP", "layer1": "chemical_industrial", "layer2": "pungent" },
+    {
+      "id": "VINEGARY",
+      "layer1": "chemical_industrial",
+      "layer2": "vinegary",
+      "secondary": "putrid_decay"
+    },
+    {
+      "id": "FERMENTED",
+      "layer1": "chemical_industrial",
+      "layer2": "fermented",
+      "secondary": "savory_food"
+    },
+    {
+      "id": "ALCOHOLIC",
+      "layer1": "chemical_industrial",
+      "layer2": "alcoholic",
+      "secondary": "medicinal"
+    },
+    {
+      "id": "WAXY",
+      "layer1": "chemical_industrial",
+      "layer2": "waxy",
+      "secondary": "animalic"
+    },
+    {
+      "id": "SOAPY",
+      "layer1": "chemical_industrial",
+      "layer2": "soapy",
+      "secondary": "floral"
+    },
+    { "id": "BAKERY", "layer1": "savory_food", "layer2": "bread_pastry" },
+    { "id": "BREAD", "layer1": "savory_food", "layer2": "bread_pastry" },
+    { "id": "MEAT COOKED", "layer1": "savory_food", "layer2": "meat" },
+    {
+      "id": "GARLIC",
+      "layer1": "savory_food",
+      "layer2": "garlic",
+      "secondary": "putrid_decay"
+    },
+    {
+      "id": "ONION",
+      "layer1": "savory_food",
+      "layer2": "onion",
+      "secondary": "putrid_decay"
+    },
+    {
+      "id": "COFFEE",
+      "layer1": "savory_food",
+      "layer2": "coffee",
+      "secondary": "spicy_warm"
+    },
+    { "id": "POPCORN", "layer1": "savory_food", "layer2": "bread_pastry" },
+    {
+      "id": "CHEESE",
+      "layer1": "savory_food",
+      "layer2": "dairy",
+      "secondary": "putrid_decay"
+    },
+    { "id": "BUTTER", "layer1": "savory_food", "layer2": "dairy" },
+    { "id": "DAIRY", "layer1": "savory_food", "layer2": "dairy" },
+    {
+      "id": "FAT",
+      "layer1": "savory_food",
+      "layer2": "fatty",
+      "secondary": "animalic"
+    },
+    {
+      "id": "FATTY",
+      "layer1": "savory_food",
+      "layer2": "fatty",
+      "secondary": "animalic"
+    },
+    { "id": "PUTRID", "layer1": "putrid_decay", "layer2": "putrid_general" },
+    { "id": "ROTTEN", "layer1": "putrid_decay", "layer2": "decay" },
+    { "id": "DECAYED", "layer1": "putrid_decay", "layer2": "decay" },
+    { "id": "SULFUROUS", "layer1": "putrid_decay", "layer2": "sulfurous" },
+    { "id": "EGGY", "layer1": "putrid_decay", "layer2": "sulfurous" },
+    { "id": "FECAL", "layer1": "putrid_decay", "layer2": "fecal" },
+    { "id": "FISHY", "layer1": "putrid_decay", "layer2": "fishy" },
+    { "id": "AMMONIA", "layer1": "putrid_decay", "layer2": "ammonia" },
+    { "id": "SEWER", "layer1": "putrid_decay", "layer2": "sewer" },
+    {
+      "id": "RANCID",
+      "layer1": "putrid_decay",
+      "layer2": "rancid",
+      "secondary": "animalic"
+    },
+    { "id": "CATTY", "layer1": "putrid_decay", "layer2": "putrid_general" },
+    { "id": "SKUNK", "layer1": "putrid_decay", "layer2": "sulfurous" },
+    {
+      "id": "STALE",
+      "layer1": "putrid_decay",
+      "layer2": "decay",
+      "secondary": "woody_earthy"
+    },
+    { "id": "MEDICINAL", "layer1": "medicinal", "layer2": "medicinal_general" },
+    { "id": "ANTISEPTIC", "layer1": "medicinal", "layer2": "antiseptic" },
+    { "id": "PHENOLIC", "layer1": "medicinal", "layer2": "phenolic" },
+    { "id": "IODINE", "layer1": "medicinal", "layer2": "iodine" },
+    {
+      "id": "PHARMACEUTICAL",
+      "layer1": "medicinal",
+      "layer2": "medicinal_general"
+    },
+    { "id": "DISINFECTANT", "layer1": "medicinal", "layer2": "antiseptic" },
+    { "id": "HOSPITAL", "layer1": "medicinal", "layer2": "antiseptic" },
+    {
+      "id": "MINTY_MED",
+      "layer1": "medicinal",
+      "layer2": "medicinal_general",
+      "note": "Dravnieks 'menthol-like' when used in pharmaceutical context"
+    },
+    {
+      "id": "LIGHT",
+      "layer1": "unclassified",
+      "layer2": null,
+      "note": "Hedonic/intensity qualifier in Dravnieks, not a primary odor class"
+    },
+    {
+      "id": "HEAVY",
+      "layer1": "unclassified",
+      "layer2": null,
+      "note": "Hedonic/intensity qualifier"
+    },
+    { "id": "WARM", "layer1": "spicy_warm", "layer2": "spicy_general" },
+    { "id": "COLD", "layer1": "minty_fresh", "layer2": "cooling" },
+    { "id": "WET", "layer1": "woody_earthy", "layer2": "earthy" },
+    { "id": "DRY_POWDER", "layer1": "floral", "layer2": "floral_general" },
+    {
+      "id": "POWDERY",
+      "layer1": "floral",
+      "layer2": "floral_general",
+      "secondary": "animalic"
+    },
+    { "id": "CLEAN", "layer1": "minty_fresh", "layer2": "fresh_general" },
+    { "id": "DIRTY", "layer1": "putrid_decay", "layer2": "putrid_general" },
+    {
+      "id": "PLEASANT",
+      "layer1": "unclassified",
+      "layer2": null,
+      "note": "Hedonic rating, not an odor class"
+    },
+    {
+      "id": "UNPLEASANT",
+      "layer1": "unclassified",
+      "layer2": null,
+      "note": "Hedonic rating, not an odor class"
+    },
+    {
+      "id": "IRRITATING",
+      "layer1": "chemical_industrial",
+      "layer2": "pungent"
+    },
+    {
+      "id": "NAUSEATING",
+      "layer1": "putrid_decay",
+      "layer2": "putrid_general"
+    },
+    {
+      "id": "BURNT RUBBER",
+      "layer1": "chemical_industrial",
+      "layer2": "rubber"
+    },
+    { "id": "GASLIKE", "layer1": "chemical_industrial", "layer2": "petroleum" },
+    {
+      "id": "KEROSENE",
+      "layer1": "chemical_industrial",
+      "layer2": "petroleum"
+    },
+    {
+      "id": "OIL",
+      "layer1": "chemical_industrial",
+      "layer2": "petroleum",
+      "secondary": "savory_food"
+    },
+    { "id": "MUSTY_DAMP", "layer1": "woody_earthy", "layer2": "musty" },
+    {
+      "id": "MUSHROOM",
+      "layer1": "woody_earthy",
+      "layer2": "earthy",
+      "secondary": "savory_food"
+    },
+    {
+      "id": "TRUFFLE",
+      "layer1": "woody_earthy",
+      "layer2": "earthy",
+      "secondary": "savory_food"
+    },
+    { "id": "LICORICE", "layer1": "spicy_warm", "layer2": "anise" },
+    { "id": "MINTY_FRESH", "layer1": "minty_fresh", "layer2": "mint" },
+    { "id": "HERBAL_MED", "layer1": "minty_fresh", "layer2": "herbal" },
+    {
+      "id": "FLORAL_SWEET",
+      "layer1": "floral",
+      "layer2": "floral_general",
+      "secondary": "spicy_warm"
+    },
+    {
+      "id": "BEESWAX",
+      "layer1": "animalic",
+      "layer2": "waxy",
+      "secondary": "floral"
+    },
+    {
+      "id": "AMBER",
+      "layer1": "animalic",
+      "layer2": "animal_general",
+      "secondary": "woody_earthy"
+    },
+    {
+      "id": "MARINE",
+      "layer1": "minty_fresh",
+      "layer2": "fresh_general",
+      "note": "Oceanic/marine accord: fresh, ozonic"
+    }
+  ]
+}
