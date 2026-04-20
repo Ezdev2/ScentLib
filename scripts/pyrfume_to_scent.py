@@ -325,6 +325,9 @@ def run_import(limit=None, output_dir=OUTPUT_DIR):
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    script_dir = Path(__file__).parent
+    default_output = script_dir.parent / "data" / "processed"
+
     parser = argparse.ArgumentParser(
         description="Import Pyrfume Dravnieks 1985 dataset into ScentLib .scent format"
     )
@@ -333,8 +336,13 @@ if __name__ == "__main__":
         help="Limit number of molecules (e.g. --limit 10 for a test run)"
     )
     parser.add_argument(
-        "--output", type=str, default="data/processed",
-        help="Output directory for .scent files"
+        "--output", type=str, default=str(default_output),
+        help=f"Output directory for .scent files (default: {default_output})"
     )
     args = parser.parse_args()
-    run_import(limit=args.limit, output_dir=Path(args.output))
+    
+    # On s'assure que le dossier existe avant de lancer l'import
+    output_path = Path(args.output)
+    output_path.mkdir(parents=True, exist_ok=True)
+    
+    run_import(limit=args.limit, output_dir=output_path)
