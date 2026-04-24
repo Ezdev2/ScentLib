@@ -10,6 +10,7 @@ Affiche la liste des molécules disponibles dans un répertoire.
 * **Arguments :**
     * `PATH` (optionnel) : Chemin vers le dossier de données (défaut: `data/processed`).
     * `-q`, `--query` : Mot-clé pour filtrer par nom de molécule ou catégorie.
+* **Note :** Les fichiers avec `capture_type: stream` sont automatiquement exclus du catalogue — seuls les profils `static` sont listables.
 * **Exemple :** `scentlib list -q "citrus"`
 
 ### 2. `play` - Visualisation d'un profil
@@ -30,10 +31,14 @@ Calcule le score de proximité entre deux odeurs en utilisant la similarité cos
     * **< 50%** : Profils distincts.
 * **Exemple :** `scentlib compare cid_1183.scent cid_10430.scent`
 
-### 4. 'export' - Exporter les données en csv
-Compile la bibliothèque en un dataset unique (CSV/Parquet).
-* **Usage :** `scentlib export [FILENAME]`
+### 4. `export` - Exporter les données en CSV/Parquet
+Compile la bibliothèque en un dataset unique (CSV ou Parquet).
+* **Usage :** `scentlib export [FILENAME] [--dir DIR]`
+* **Arguments :**
+    * `FILENAME` : Nom du fichier de sortie. L'extension détermine le format (`.csv` ou `.parquet`).
+    * `--dir` (optionnel) : Dossier source (défaut: `data/processed`).
 * **Exemple :** `scentlib export library_research.csv`
+* **Exemple Parquet :** `scentlib export library_research.parquet --dir data/processed`
 
 ### 5. `fingerprint` - Signature Numérique Unique
 Génère une empreinte MD5 tronquée basée sur le vecteur de données olfactives.
@@ -46,8 +51,13 @@ Génère une empreinte MD5 tronquée basée sur le vecteur de données olfactive
 
 ### 6. `match` - Recherche par proximité
 Analyse toute la bibliothèque pour trouver les profils les plus similaires à un fichier source.
-* **Usage :** `scentlib match [FILE_PATH] [--top N]`
+* **Usage :** `scentlib match [FILE_PATH] [--dir DIR] [--top N]`
+* **Arguments :**
+    * `FILE_PATH` : Le fichier `.scent` cible (doit être de type `static`).
+    * `--dir` (optionnel) : Dossier de la bibliothèque à scanner (défaut: `data/processed`).
+    * `--top` (optionnel) : Nombre de résultats à retourner (défaut: `5`).
 * **Algorithme :** Utilise la distance Euclidienne sur les vecteurs d'intensité. Plus la distance est proche de 0, plus la ressemblance est forte.
+* **Note :** Les fichiers `stream` sont ignorés de la bibliothèque de recherche. Si le fichier cible est de type `stream`, la commande retourne une erreur.
 * **Exemple :** `scentlib match data/processed/cid_1183.scent --top 3`
 
 ### 7. `blend` - Simulation de mélange olfactif

@@ -54,6 +54,10 @@ def list_scents(directory_path: str, query: str = None) -> None:
     for f in scent_files:
         with open(f, "r") as file:
             d = json.load(file)
+            
+            if d.get("header", {}).get("capture_type") == "stream":
+                continue
+            
             name = d["labels"].get("layer3_descriptor", "N/A")
             cat = d["labels"].get("layer1_category", "N/A")
 
@@ -185,6 +189,10 @@ def match_scent(file_path: str, directory: str, top_n: int) -> None:
     with open(file_path, "r") as f:
         target_scent = json.load(f)
 
+    if target_scent.get("header", {}).get("capture_type") == "stream":
+        print("Error: Cannot match a stream-type scent file. Use a static capture.")
+        return
+    
     analytics = ScentAnalytics()
     matches = analytics.find_matches(target_scent["data"], directory, top_n)
 
