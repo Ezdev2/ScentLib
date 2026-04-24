@@ -85,41 +85,34 @@ class ScentAnalytics:
     # Recherche par proximité
     # ------------------------------------------------------------------
 
-    def find_matches(
-        self,
-        target_data: list,
-        library_path: str,
-        top_n: int = 5,
-        exclude_zero: bool = True,
-    ) -> list[dict]:
-        """
-        Cherche les profils les plus proches dans la bibliothèque.
-        Algorithme : distance euclidienne (voir note de cohérence en en-tête).
-        Input  : vecteur cible, chemin du dossier bibliothèque,
-                 nombre de résultats, exclure distance 0 (doublon exact)
-        Output : liste de dicts triée par distance croissante
-        """
+    def find_matches(self, target_data: list, library_path: str, top_n: int = 5):
+        """Cherche les molécules les plus proches dans la bibliothèque."""
         path = Path(library_path)
         results = []
 
         for f in path.glob("*.scent"):
             with open(f, "r") as file:
                 d = json.load(file)
-                library_data = d.get("data", [])
-                dist = self.calculate_distance(target_data, library_data)
 
-                # Exclure la molécule cible elle-même (distance 0 = doublon exact)
-                if exclude_zero and dist == 0.0:
+                if d.get("header", {}).get("capture_type") == "stream":
                     continue
 
+                library_data = d.get("data", [])
+                
+                # On utilise la similarité cosinus
+                dist = self.calculate_distance(target_data, library_data)
+                
                 results.append({
-                    "Name":     d["labels"].get("layer3_descriptor", "Unknown"),
+                    "Name": d["labels"].get("layer3_descriptor", "Unknown"),
                     "Category": d["labels"].get("layer1_category", "N/A"),
-                    "Distance": round(dist, 4),
-                    "File":     f.name,
+                    "Distance": round(float(dist), 4),
+                    "File": f.name
                 })
 
-        return sorted(results, key=lambda x: x["Distance"])[:top_n]
+        # On trie par distance (plus c'est petit, plus c'est proche)
+        # On ignore la molécule cible elle-même si elle est dans la bibliothèque (distance 0)
+        sorted_results = sorted(results, key=lambda x: x["Distance"])
+        return sorted_results[:top_n]
 
     # ------------------------------------------------------------------
     # Mélange
@@ -140,8 +133,6 @@ class ScentAnalytics:
         b = np.array(v2, dtype=float)
         min_len = min(len(a), len(b))
         blended = (a[:min_len] * ratio) + (b[:min_len] * (1 - ratio))
-        # Clamp de sécurité — les entrées sont dans [0,1] donc le résultat
-        # l'est aussi, mais on garantit les bornes explicitement
         return np.clip(blended, 0.0, 1.0).tolist()
 
     # ------------------------------------------------------------------
