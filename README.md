@@ -7,8 +7,6 @@ ScentLib is an open-source library and data ecosystem designed to bring to olfac
 
 Digital olfaction is the next technological frontier. However, chemical and sensory data are currently fragmented and proprietary. ScentLib introduces the **`.scent`** file format — a hardware-agnostic data structure that unifies sensor capture (e-noses), human perceptual data, and AI-driven semantic interpretation under a single open standard.
 
-> *"Just as Newton needed Calculus to explain gravity, I needed a technical framework — the `.scent` standard — to explain and transport digital odors."*
-
 ## The `.scent` Format
 
 The `.scent` format is a self-contained JSON object (extensible to binary via the `SCNT` protocol) structured around four pillars:
