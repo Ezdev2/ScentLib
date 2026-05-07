@@ -1,9 +1,3 @@
-C'est un document extrêmement solide pour un début de Master. Il structure ton projet non plus comme un simple "logiciel", mais comme une **étude scientifique rigoureuse**.
-
-Voici la mise à jour de ton `RESEARCH.md` pour intégrer l'aspect **Multi-modal** (Molécule + Capteur), la distinction entre **Recherche** et **Produit**, et l'aspect **Éthique/Sécurité** que nous avons discuté.
-
----
-
 # ScentLib — Research Protocol (Updated 7 May 2026)
 
 **Title:** *A Unified Multi-modal Framework for Digital Olfaction: Bridging Chemical Structure, Sensor Signals, and Human Perception via the .scent Standard.*
@@ -76,10 +70,6 @@ The tropical conditions of Mauritius (high humidity) will be used to train the *
 * **Architecture:** Multi-modal alignment (Graph + Time-series).
 * **Innovation:** First open-source "Reverse Scent Design" engine.
 * **Ethics:** Integrated safety-filter based on molecular toxicity prediction.
-
----
-
-*This protocol serves as the roadmap for the ScentLib AI development during the 2026-2027 Master’s program at UTM.*
 
 ---
 
