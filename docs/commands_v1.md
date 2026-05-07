@@ -72,4 +72,4 @@ Permet de combiner mathématiquement deux profils `.scent` pour prédire le rés
 ---
 
 ## Maintenance & Data
-* **Mass Import :** Utilisez `python scripts/mass_import_pyrfume.py` pour peupler votre bibliothèque à partir de jeux de données scientifiques (Pyrfume/Dravnieks).
+* **Mass Import :** Utilisez `python scripts/pyrfume_to_scent.py` pour peupler votre bibliothèque à partir de jeux de données scientifiques (Pyrfume/Dravnieks).

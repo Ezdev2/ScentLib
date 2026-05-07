@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 from scentlib.core.validator import ScentValidator
+from datetime import datetime, timezone
 
 # Configuration
 OUTPUT_DIR = Path("data/processed")
@@ -18,7 +19,7 @@ def mass_import():
             "CID": 1000 + i,
             "name": f"Molecule_{i}",
             "smiles": "C" * (i % 10 + 1), # SMILES fictif
-            "category": "green_herbal" if i % 2 == 0 else "fruity_citrus",
+            "category": "minty_fresh" if i % 2 == 0 else "fruity",
             "intensity": 0.5 + (i / 100),
             "sweetness": 0.1 + (i / 200),
             "spiciness": 0.05
@@ -40,7 +41,7 @@ def mass_import():
                     "capture_type": "static",
                     "data_origin": "human_perceptual",
                     "dimension_map": dim_map,
-                    "timestamp": datetime.utcnow().isoformat() + "Z"
+                    "timestamp": datetime.now(timezone.utc).isoformat()
                 },
                 "chemical_info": {
                     "pubchem_cid": row["CID"],

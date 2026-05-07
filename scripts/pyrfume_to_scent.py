@@ -1,5 +1,5 @@
 """
-pyrfume_to_scent.py — Convertisseur Pyrfume → ScentLib (.scent)
+Convertisseur Pyrfume → ScentLib (.scent)
 ================================================================
 Dataset cible : Dravnieks 1985 (via pyrfume-data sur GitHub)
 
@@ -127,7 +127,7 @@ def infer_category(scores: dict, descriptor_map: dict) -> tuple:
                 category = cat
                 break
 
-    return (category or "unclassified"), top_descriptor.title()
+    return (category or "unclassified"), top_descriptor.upper().strip()
 
 
 # ---------------------------------------------------------------------------
@@ -165,7 +165,7 @@ def build_scent_dict(
             "smiles": smiles,
             "inchi_key": inchi_key,
             "iupac_name": iupac_name,
-            "common_name": common_name,
+            "common_name": common_name if common_name and not common_name.replace("-","").isdigit() else None,
             "molecular_weight": mol_weight,
         },
         "labels": {

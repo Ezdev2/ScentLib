@@ -1,0 +1,11 @@
+avant de continuer sur player, coté structure, je veux rappeler que je veux quelques choses qui est complet mais pas forcement lourd. 
+
+ScentLib is designed as a modular ecosystem, keeping the system lightweight, professional, and easy to maintain
+
+The Core (scentlib/): The lightweight foundation. It strictly handles the .scent standard, data validation, and the API. It has minimal dependencies so it can run anywhere (servers, web, or local).
+The Satellite Pillars: Features like the Desktop Player (scentlib_player), AI models (scentlib_ai), and hardware drivers (scentlib_hardware) live in separate folders. They are only installed if needed.
+The Interactive Wizard: A simple command-line interface (scentlib setup) prompts the user with an interactive checkbox menu. Users select only the pillars they want, and the setup automatically installs the corresponding dependencies.
+Single-Repo Management: Everything is co-located in one repository but configured independently. When update the .scent format in the Core, all other pillars instantly align.
+
+It's just for not blending it,
+
